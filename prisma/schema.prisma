@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum CustomerRegion {
+  UK
+  US
+  EU
+  SE
+}
+
+model Customer {
+  id                   Int @id            @default(autoincrement())
+  firstName            String
+  lastName             String
+  region               CustomerRegion
+  createdAt            DateTime           @default(now())
+  billingAddressId     Int?
+  billingAddress       CustomerAddress?   @relation(name: "customerBillingAddress", fields: [billingAddressId], references: [id])
+  shippingAddressId    Int?
+  shippingAddress      CustomerAddress?   @relation(name: "customerShippingAddress", fields: [shippingAddressId], references: [id])
+}
+
+model CustomerAddress {
+  id                   Int @id            @default(autoincrement())
+  name                 String
+  company              String?
+  addressLine1         String
+  addressLine2         String?
+  city                 String
+  province             String
+  country              String
+  postalCode           String
+  createdAt            DateTime           @default(now())
+  billingCustomer      Customer?          @relation(name: "customerBillingAddress")
+  shippingCustomer     Customer?          @relation(name: "customerShippingAddress")
+}

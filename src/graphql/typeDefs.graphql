@@ -1,0 +1,36 @@
+type Customer @key(fields: "id") {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  region: String!
+  createdAt: String
+  billingAddressId: ID
+  billingAddress: CustomerAddress
+  shippingAddressId: ID
+  shippingAddress: CustomerAddress
+}
+
+type CustomerAddress @key(fields: "id") {
+  id: ID!
+  name: String!
+  company: String
+  addressLine1: String!
+  addressLine2: String
+  city: String!
+  province: String!
+  country: String!
+  postalCode: String!
+  createdAt: String
+}
+
+type CustomerID {
+  id: ID!
+}
+
+type Query {
+  findCustomer(id: ID!): Customer
+}
+
+type Mutation {
+  registerCustomer(firstName: String!, lastName: String!, region: String!): CustomerID
+}
