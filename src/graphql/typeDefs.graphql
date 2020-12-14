@@ -1,5 +1,6 @@
-type Customer @key(fields: "id") {
+type Customer @key(fields: "id") @key(fields: "authUserId") {
   id: ID!
+  authUserId: ID!
   firstName: String!
   lastName: String!
   region: String!
